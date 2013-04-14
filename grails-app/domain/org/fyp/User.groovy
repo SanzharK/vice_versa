@@ -8,12 +8,6 @@ class User {
 	transient springSecurityService
 	
 	static mapWith = "mongo"
-
-//	String username
-//	String password
-//	boolean enabled
-//	boolean accountExpired
-//	boolean accountLocked
 //	boolean passwordExpired
 
 	// time stamps: automatically populated by GORM
@@ -21,6 +15,7 @@ class User {
 	Date lastUpdated
 
 	// properties
+	
 	//company
 	String companyName
 	String phone
@@ -28,6 +23,7 @@ class User {
 	String addressLine2
 	String city
 	String country
+	
 	//representative
 	String firstName
 	String lastName
@@ -36,9 +32,12 @@ class User {
 	String confirm
 	//String username = email
 	List<String> connections
+	//String status
+	//String areaOfBusiness
 	
 	static constraints = {
 		email blank: false, unique: true
+		//areaOfBusiness(inList: ["Information Technology", "Logistics", "PR & Advertising"])
 		//password blank: false
 	}
 
@@ -53,12 +52,6 @@ class User {
 	def beforeInsert() {
 		encodePassword()
 	}
-
-//	def beforeUpdate() {
-//		if (isDirty('password')) {
-//			encodePassword()
-//		}
-//	}
 
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)

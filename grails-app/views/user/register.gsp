@@ -2,19 +2,8 @@
 <head>
   <title>FYP - User Registration</title>
   <meta name="layout" content="main" />
-  <!-- This is my Search bar -->
-	<input id="text2" class="col_11" type="text" placeholder="Search" />
-	<button class="blue">Search</button>
-	<p></p>
-	<!-- Menu Horizontal -->
-	<ul class="menu">
-	<li><a href="/final_year_project">Home</a></li>
-	<li><a href="">How it Works</a></li>
-	<li><a href="">Contact Us</a></li>
-	<li class="current"><a>Registration</a></li>
-	</ul>
-</head>
-<body>
+	</head>
+	<body>
 	<!-- Blockquote Small -->
 	<blockquote class="small">
 	<p>
@@ -87,7 +76,7 @@
     	</p>
     	<p>
     	  <label for="email" class="col_1">Email</label>
-    	  <g:textField name="email" value="${user?.lastName}"
+    	  <g:textField name="email" value="${user?.email}"
     	    class="${hasErrors(bean:user,field:'email','errors')}" class="col_3"/>
     	</p>
     	<p>

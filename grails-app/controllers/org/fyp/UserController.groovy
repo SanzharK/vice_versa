@@ -21,7 +21,8 @@ class UserController {
 		if (request.method == 'POST') {
 			// create domain object and assign parameters using data binding
 			def u = new User(params)
-			u.connections = [ ]
+			def connections = []
+			u.connections = connections
 			//u.passwordHashed = u.password.encodeAsPassword()
 			if (! u.save()) {
 				// validation failed, render registration page again
@@ -67,7 +68,8 @@ class UserController {
 		params.products = products
 		def amountOfServices = services.size()
 		params.amountOfServices = amountOfServices
-		//System.out.println(services.size())
+		def createdAuctions = displayCreatedAuctions()
+		params.createdAuctions = createdAuctions
 	}
 
 	def show() {
@@ -91,17 +93,17 @@ class UserController {
 			currentUser.save()
 			redirect(controller:'user', action:'myPage')
 		}
-//		for(user in connections) {
-//			if(user != requestedUser.email) {
-//				currentUser.connections.add(requestedUser.email)
-//				currentUser.save()
-//				redirect(controller:'user', action:'myPage')
-//			}
-//			else {
-//				redirect(controller:'user', action:'myPage')
-//				//redirect to error page
-//			}
-//		}
+		//		for(user in connections) {
+		//			if(user != requestedUser.email) {
+		//				currentUser.connections.add(requestedUser.email)
+		//				currentUser.save()
+		//				redirect(controller:'user', action:'myPage')
+		//			}
+		//			else {
+		//				redirect(controller:'user', action:'myPage')
+		//				//redirect to error page
+		//			}
+		//		}
 	}
 
 	def message() {
@@ -123,6 +125,14 @@ class UserController {
 		def products = Product.findAllByUser(u) {
 		}
 		products
+	}
+
+	private displayCreatedAuctions() {
+		def u = session.user
+		def createdAuctions = Auction.findAllByHost(u) {
+
+		}
+		createdAuctions
 	}
 
 }

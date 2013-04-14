@@ -23,7 +23,7 @@ jQuery(document).ready(function($){
 		$(this).removeClass('hover');
 	});
 	
-	/*$('ul.menu li a[href=]').click(function(e){
+	$('ul.menu li a[href=]').click(function(e){
 		e.preventDefault();
 		e.stopPropagation();
 		var item = $(this).parents('li:first').find('ul:first');
@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
 	
 	$('ul.menu ul').mouseleave(function(){
 		$(this).stop(true, true).delay(3000).fadeOut('fast');
-	});*/
+	});
 	
 	
 	/*---------------------------------

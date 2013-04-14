@@ -1,91 +1,99 @@
 <html>
-	<head>
-	<title>FYP - My Page</title>
-	<meta name="layout" content="main" />
-		<!-- This is my Search bar -->
-	
-	</head>
-	<body>
-	<input id="text2" class="col_11" type="text" placeholder="Search" />
-	<button class="blue">Search</button>
-	<p></p>
-	<!-- Menu Horizontal -->
-	<ul class="menu">
-	<li><a href="/final_year_project">Home</a></li>
-	<g:if test="${session?.user}">
-	<li class="current"><a href="">My Page</a></li>
-	</g:if>
-	<li><a href="">Connections</a></li>
-	<li><a href="/final_year_project/user/message">Messages</a></li>
-	<li><a href="/final_year_project/user/proposal">Proposals</a></li>
-	<li><a href="">How it Works</a></li>
-	<li><a href="/final_year_project/main/contactUs">Contact Us</a></li>
-	<g:if test="${session?.user}">
-	<li><a></a></li>
-	<li><a></a></li>
-	<li><a></a></li>
-	<li><a></a></li>
-	<li><a></a></li>
-	<li><a></a></li>
-		<li id="login">
-    	    ${session?.user?.companyName} (${session?.user?.email}) |
-    	<g:link controller="user" action="logout">Logout</g:link></li>
-	<!-- END #login -->
-	</g:if>
-	</ul>
-	<div class="col_3 column">
-	<!-- Align Left -->
-	<img class="align-left" src="${resource(dir:'images',file:'sony_logo.jpg')}" width="300" height="300" />
-	<p>We are a Japanese multinational conglomerate corporation headquartered in Kōnan Minato, Tokyo, Japan.
-	Our diversified business is primarily focused on the electronics, game, entertainment and financial services sectors.
-	The company is one of the leading manufacturers of electronics products for the consumer and professional markets.
-	Sony is ranked 87th on the 2012 list of Fortune Global 500</p>
+<head>
+<title>FYP - My Page</title>
+<meta name="layout" content="main" />
+<!-- This is my Search bar -->
+</head>
+<body>
+	<div class="col_12 column">
+		<!-- Tabs Left -->
+		<ul class="tabs left">
+			<li><a href="#tabr1">Company</a></li>
+			<li><a href="#tabr2">Services</a></li>
+			<li><a href="#tabr3">Products</a></li>
+			<li><a href="#tabr4">Auctions</a></li>
+		</ul>
+		<div id="tabr1" class="tab-content">
+			<div class="col_5 column">
+				<!-- Align Left -->
+				<img class="align-left"
+					src="${resource(dir:'images',file:'sme-community.jpg')}"
+					width="300" height="300" />
+				<p>Small and medium enterprises or small and medium-sized
+					enterprises (SMEs, small and medium-sized businesses, SMBs, and
+					variations of these terms) are companies whose personnel numbers
+					fall below certain limits. The abbreviation "SME" is used in the
+					European Union and by international organizations such as the World
+					Bank, the United Nations and the World Trade Organization (WTO).
+					Small enterprises outnumber large companies by a wide margin and
+					also employ many more people. SMEs are also said to be responsible
+					for driving innovation and competition in many economic sectors.</p>
+			</div>
+			<div class="col_4 column">
+				<hr>
+				<h4>Address</h4>
+				<address>
+					<p>
+						${session?.user?.addressLine1}<br />
+						${session?.user?.addressLine2}<br />
+						${session?.user?.city}
+					</p>
+				</address>
+			</div>
+			<div class="col_4 column">
+				<hr>
+				<h4>Representative</h4>
+				<address>
+					<p>
+						${session?.user?.firstName}<br />
+						${session?.user?.lastName}<br />
+						${session?.user?.email}
+					</p>
+				</address>
+			</div>
+		</div>
+		<div id="tabr2" class="tab-content">
+			<h4>Services</h4>
+			<ul id="services" class="alt">
+				<g:each var="service" in="${params.services}">
+					<li><a> ${service.title}</a></li>
+				</g:each>
+			</ul>
+			<button class="green pill"
+				onClick="window.location = '/final_year_project/service/newService' ">
+				<span class="icon" data-icon="p"></span>
+				<g:message code="Service"></g:message>
+			</button>
+		</div>
+		<div id="tabr3" class="tab-content">
+			<h4>Products</h4>
+			<ul id="products" class="alt">
+				<g:each var="product" in="${params.products}">
+					<li><a> ${product.title}</a></li>
+				</g:each>
+			</ul>
+			<button class="green pill"
+				onClick="window.location = '/final_year_project/product/newProduct' ">
+				<span class="icon" data-icon="p"></span>
+				<g:message code="Product"></g:message>
+			</button>
+		</div>
+		<div id="tabr4" class="tab-content">
+			<h4>My Auctions</h4>
+			<ul id="auctions" class="alt">
+				<g:each var="auction" in="${params.createdAuctions}">
+					<li><a><g:link controller="auction"
+								action="quotesAuctionHostView" id="${auction.id }">
+								${auction.title}
+							</g:link></a></li>
+				</g:each>
+			</ul>
+			<button class="green pill"
+				onClick="window.location = '/final_year_project/auction/chooseAuction' ">
+				<span class="icon" data-icon="p"></span>
+				<g:message code="Auction"></g:message>
+			</button>
+		</div>
 	</div>
-	<div class="col_3 column">
-	<hr>
-	<h4>Address</h4>
-	<address><p>
-	${session?.user?.addressLine1}<br />
-	${session?.user?.addressLine2}<br />
-	${session?.user?.city}
-	</p>
-	</address>
-	<hr>
-	<h4>Representative</h4>
-	<address><p>
-	${session?.user?.firstName}<br />
-	${session?.user?.lastName}<br />
-	${session?.user?.email}
-	</p>
-	</address>		
-	</div>
-	<div class="col_3 column">
-	<hr>
-	<h4>Services</h4>
-	<ul id="services" class="alt">
-	<g:each var="service" in="${params.services}">
-	<li> ${service.title}</li>
-	</g:each>
-	</ul>
-	<hr>
-	<h4>Products</h4>
-	<ul id="services" class="alt">
-	<g:each var="product" in="${params.products}">
-	<li> ${product.title}</li>
-	</g:each>
-	</ul>	
-	</div>
-	<div class="col_3 column">
-	<g:link controller="service" action="newService"> 
-    <input type="button" value="Add Service" class="button" class="green"/> 
-    </g:link>
-    <g:link controller="product" action="newProduct"> 
-    <input type="button" value="Add Product" class="button" class="green"/> 
-    </g:link>
-    <g:link controller="auction" action="newAuction"> 
-    <input type="button" value="Add Auction" class="button" class="green"/> 
-    </g:link>
-	</div>
-	
-	</body>
+</body>
 </html>

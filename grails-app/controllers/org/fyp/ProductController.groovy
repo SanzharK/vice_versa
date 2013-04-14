@@ -11,7 +11,6 @@ class ProductController {
 			def product = new Product(title: params.title, description: params.description, image: params.image)
 			def user = session.user
 			product.user = user
-			//service.user_id = session.user.id
 			if (! product.save()) {
 				// validation failed, render registration page again
 				return [product:product]
