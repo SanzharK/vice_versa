@@ -21,7 +21,7 @@ class UserController {
 		if (request.method == 'POST') {
 			// create domain object and assign parameters using data binding
 			def u = new User(params)
-			def connections = []
+			def connections = ['']
 			u.connections = connections
 			//u.passwordHashed = u.password.encodeAsPassword()
 			if (! u.save()) {
@@ -84,31 +84,35 @@ class UserController {
 	def addConnection() {
 		def requestedUser = User.findById(params.id)
 		def currentUser = session.user
-		def connections = currentUser.connections
-		connections.each {
-			connection -> assert equals(requestedUser.email) {
-				redirect(controller:'user', action:'homepage')
-			}
-			currentUser.connections.add(requestedUser.email)
-			currentUser.save()
-			redirect(controller:'user', action:'myPage')
-		}
-		//		for(user in connections) {
-		//			if(user != requestedUser.email) {
-		//				currentUser.connections.add(requestedUser.email)
-		//				currentUser.save()
-		//				redirect(controller:'user', action:'myPage')
-		//			}
-		//			else {
-		//				redirect(controller:'user', action:'myPage')
-		//				//redirect to error page
-		//			}
-		//		}
+		currentUser.connections.add(requestedUser.companyName)
+		currentUser.save()
+		redirect(controller:'user', action:'myPage')
 	}
 
 	def message() {
 		def currentUser = session.user
 		params.connections = currentUser.connections
+	}
+
+	def connect() {
+		def currentUser = session.user
+		def exsConnection = currentUser.connections;
+		def revisedExsConnections = [];
+		for(int i = 1; i < exsConnection.size(); i++) {
+			revisedExsConnections.add(exsConnection[i])
+		}
+		params.existingConnections = revisedExsConnections
+		def possibleConnections = User.findAll()
+		def existingConnections = currentUser.connections
+		def revisedConnectionList = [];
+		for(int i = 0; i < possibleConnections.size(); i++) {
+			if(possibleConnections[i].companyName != currentUser.companyName)
+				for(int z = 1; z < existingConnections.size(); z++) {
+					if(existingConnections[z] !=  possibleConnections[i].companyName)
+						revisedConnectionList.add(possibleConnections[i]);
+				}
+		}
+		params.possibleConnections = revisedConnectionList
 	}
 
 	def proposal() {}

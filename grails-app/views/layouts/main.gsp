@@ -51,7 +51,7 @@
 								href="/final_year_project/user/myPage"><span
 									class="icon medium blue" data-icon="u"></span>My Page</a>
 								<ul>
-									<li><a href=""><span class="icon small blue"
+									<li><a href="/final_year_project/user/connect"><span class="icon small blue"
 											data-icon="U"></span>Connections</a></li>
 									<li><a href="/final_year_project/user/message"><span
 											class="icon small blue" data-icon='"'></span>Messages</a></li>
