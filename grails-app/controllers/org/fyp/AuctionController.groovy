@@ -30,6 +30,10 @@ class AuctionController {
 	def liveAuctionBidderView() {
 		def auction = Auction.findById(params.id)
 		params.currentAuction = auction
+		def currentBids = Bid.listOrderByAmount(order: "asc")
+		def currentWinner = currentBids[0]
+		System.out.println(currentWinner)
+		params.currentWinningBid = currentWinner
 		//
 		def now = Calendar.instance
 		def today = now.time
@@ -45,6 +49,8 @@ class AuctionController {
 	def liveAuctionHostView() {
 		def auction = Auction.findById(params.id)
 		params.currentAuction = auction
+		def currentBids = Bid.findAllByAuction(auction)
+		params.currentBids = currentBids
 	}
 
 	def chooseAuction() {}

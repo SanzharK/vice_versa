@@ -43,7 +43,7 @@
 				});
 			});
 		</script>
-		<h4 class="col_2"><font color="orange">Current Winner</font></h4>
+		<h4 class="col_2"><font color="orange">Currently Winning Bid is <label>${params.currentWinningBid.amount}</label></font></h4>
 	</div>
 	<div id="auctionInfo" class="col_4 column">
 		<font color="#60abf8"> <span class="icon x-large green"
