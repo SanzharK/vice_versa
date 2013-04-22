@@ -1,13 +1,13 @@
 <html>
 <head>
-<title>FYP - Auction Central</title>
+<title>FYP - Tender Central</title>
 <meta name="layout" content="main">
 </head>
 <body>
 	<h2>
-		<font color='orange'>Auction Central</font>
+		<font color='orange'>Tender Central</font>
 	</h2>
-	<p>Below you can see all auctions which have been created. Choose
+	<p>Below you can see all tenders which have been created. Choose
 		right one for you and start bidding!</p>
 	<div class="col_10 column">
 		<table class="sortable">
@@ -50,7 +50,7 @@
 						</g:if>
 						<g:else>
 							<td><button class="green pill"
-									onClick="window.location = '/final_year_project/auction/quotesAuctionBidderView/${auction.id }' ">
+									onClick="window.location = '/final_year_project/auction/liveAuctionBidderView/${auction.id }' ">
 									<span class="icon" data-icon="c"></span>
 									<g:message code="Bid"></g:message>
 								</button></td>

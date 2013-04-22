@@ -10,9 +10,10 @@
 			face="verdana"> ${params.currentAuction.host.companyName}
 		</font>
 	</h4>
-	<font color="#60abf8">
-		<div id="auctionInfo" class="col_4 column">
-			<span class="icon x-large green" data-icon="i"></span>
+
+	<div id="auctionInfo" class="col_4 column">
+		<font color="#60abf8"> <span class="icon x-large green"
+			data-icon="i"></span>
 			<table class="striped">
 				<thead>
 					<tr>
@@ -58,8 +59,8 @@
 					${params.currentAuction.description }
 				</div>
 			</div>
-		</div>
-	</font>
+		</font>
+	</div>
 	<div class="col_4">
 		<span class="icon green x-large" data-icon="'"></span>
 		<g:form url="[controller:'bid',action:'newBid']">
@@ -112,14 +113,14 @@
 				<label>Comment</label>
 			</p>
 			<p>
-				<textarea rows="" cols="" name="comment"></textarea>
+				<textarea rows="5" cols="30" name="comment"></textarea>
 			</p>
 			<p>
-			<g:hiddenField name="auctionId" value="${params.currentAuction.id }" />
-			<button class="green pill" type="submit">
-				<span class="icon" data-icon='c'></span>
-				<g:message code="Submit Quote"></g:message>
-			</button>
+				<g:hiddenField name="auctionId" value="${params.currentAuction.id }" />
+				<button class="green pill" type="submit">
+					<span class="icon" data-icon='c'></span>
+					<g:message code="Submit Quote"></g:message>
+				</button>
 			</p>
 		</g:form>
 	</div>

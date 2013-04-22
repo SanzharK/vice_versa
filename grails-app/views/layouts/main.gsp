@@ -60,7 +60,7 @@
 								</ul></li>
 						</g:if>
 						<li><a href="/final_year_project/auction/auctionHome"><span
-								class="icon medium blue" data-icon="j"></span>Auctions</a></li>
+								class="icon medium blue" data-icon="j"></span>Tenders</a></li>
 						<li><a href=""><span class="icon medium blue"
 								data-icon="i"></span>How it Works</a></li>
 						<li><a href="/final_year_project/main/contactUs"><span

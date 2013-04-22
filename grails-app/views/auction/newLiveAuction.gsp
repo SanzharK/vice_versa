@@ -9,11 +9,11 @@
 		<em><font color="orange">New Live Tender</font></em>
 	</h1>
 	<g:form class="verical"
-		url="[controller:'auction',action:'newQuotesAuction']">
-		<div class="col_6 column">
+		url="[controller:'auction',action:'newLiveAuction']">
+		<div class="col_8 column">
 			<div class="inner">
 				<p>
-					<label for="title" class="col_3">Tender	 Title</label> <input
+					<label for="title" class="col_3">Tender Title</label> <input
 						name="title" type="text" placeholder="ie. Car Insurance" />
 				</p>
 				<p>
@@ -51,33 +51,18 @@
 						disabled="disabled" />
 				</p>
 				<p>
-					<label class="col_3">Date</label> <input type="date"
-						name="startDate">
+					<label class="col_3">Start</label>
+					<g:datePicker name="startDate" value="${new Date()}"
+						noSelection="['':'-Choose-']" />
 				</p>
 				<p>
+					<label class="col_3">End</label>
+					<g:datePicker name="endDate" value="${new Date()}"
+						noSelection="['':'-Choose-']" />
+				</p>
+				<!-- <p>
 					<label class="col_3">Time</label> <select class="fancy"
 						name="startTime">
-						<option value="0">-- Choose --</option>
-						<option value="5:00 AM">5:00 AM</option>
-						<option value="5:15 AM">5:15 AM</option>
-						<option value="5:30 AM">5:30 AM</option>
-						<option value="5:45 AM">5:45 AM</option>
-
-						<option value="6:00 AM">6:00 AM</option>
-						<option value="6:15 AM">6:15 AM</option>
-						<option value="6:30 AM">6:30 AM</option>
-						<option value="6:45 AM">6:45 AM</option>
-
-						<option value="7:00 AM">7:00 AM</option>
-						<option value="7:15 AM">7:15 AM</option>
-						<option value="7:30 AM">7:30 AM</option>
-						<option value="7:45 AM">7:45 AM</option>
-
-						<option value="8:00 AM">8:00 AM</option>
-						<option value="8:15 AM">8:15 AM</option>
-						<option value="8:30 AM">8:30 AM</option>
-						<option value="8:45 AM">8:45 AM</option>
-
 						<option value="9:00 AM">9:00 AM</option>
 						<option value="9:15 AM">9:15 AM</option>
 						<option value="9:30 AM">9:30 AM</option>
@@ -129,31 +114,8 @@
 						<option value="6:45 PM">6:45 PM</option>
 
 						<option value="7:00 PM">7:00 PM</option>
-						<option value="7:15 PM">7:15 PM</option>
-						<option value="7:30 PM">7:30 PM</option>
-						<option value="7:45 PM">7:45 PM</option>
-
-						<option value="8:00 PM">8:00 PM</option>
-						<option value="8:15 PM">8:15 PM</option>
-						<option value="8:30 PM">8:30 PM</option>
-						<option value="8:45 PM">8:45 PM</option>
-
-						<option value="9:00 PM">9:00 PM</option>
-						<option value="9:15 PM">9:15 PM</option>
-						<option value="9:30 PM">9:30 PM</option>
-						<option value="9:45 PM">9:45 PM</option>
-
-						<option value="10:00 PM">10:00 PM</option>
-						<option value="10:15 PM">10:15 PM</option>
-						<option value="10:30 PM">10:30 PM</option>
-						<option value="10:45 PM">10:45 PM</option>
-
-						<option value="11:00 PM">11:00 PM</option>
-						<option value="11:15 PM">11:15 PM</option>
-						<option value="11:30 PM">11:30 PM</option>
-						<option value="11:45 PM">11:45 PM</option>
 					</select>
-				</p>
+				</p> -->
 				<p>
 					<label for="description" class="col_3">Description/Specs</label>
 					<textarea rows="10" cols="20"

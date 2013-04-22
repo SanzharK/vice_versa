@@ -21,7 +21,7 @@ class UserController {
 		if (request.method == 'POST') {
 			// create domain object and assign parameters using data binding
 			def u = new User(params)
-			def connections = ['']
+			def connections = new ArrayList<String>()
 			u.connections = connections
 			//u.passwordHashed = u.password.encodeAsPassword()
 			if (! u.save()) {
@@ -68,8 +68,9 @@ class UserController {
 		params.products = products
 		def amountOfServices = services.size()
 		params.amountOfServices = amountOfServices
-		def createdAuctions = displayCreatedAuctions()
-		params.createdAuctions = createdAuctions
+		params.liveAuctions = displayLiveAuctions()
+		params.quotesAuctions = displayQuotesAuctions()
+		params.generalAuctions = displayGeneralAuctions()
 	}
 
 	def show() {
@@ -96,23 +97,36 @@ class UserController {
 
 	def connect() {
 		def currentUser = session.user
+		// defined existing connections
 		def exsConnection = currentUser.connections;
-		def revisedExsConnections = [];
-		for(int i = 1; i < exsConnection.size(); i++) {
-			revisedExsConnections.add(exsConnection[i])
-		}
-		params.existingConnections = revisedExsConnections
+		params.existingConnections = exsConnection
+		// all users in the db are possible connections
 		def possibleConnections = User.findAll()
-		def existingConnections = currentUser.connections
 		def revisedConnectionList = [];
+		// eliminate currently logged in company
 		for(int i = 0; i < possibleConnections.size(); i++) {
 			if(possibleConnections[i].companyName != currentUser.companyName)
-				for(int z = 1; z < existingConnections.size(); z++) {
-					if(existingConnections[z] !=  possibleConnections[i].companyName)
-						revisedConnectionList.add(possibleConnections[i]);
-				}
+				revisedConnectionList.add(possibleConnections[i]);
 		}
-		params.possibleConnections = revisedConnectionList
+		//need to check if possible connections are already connected to user
+		def availableCompanies = [];
+		if(exsConnection != []) {
+			for(int z = 0; z < revisedConnectionList.size(); z++) {
+				def matchedCounter = 0
+				for(int x = 0; x < exsConnection.size(); x++) {
+					if(revisedConnectionList[z].companyName == exsConnection[x]) {
+						matchedCounter++;
+					}
+				}
+				if(matchedCounter == 0) {
+					availableCompanies.add(revisedConnectionList[z])
+				}
+			}
+		}
+		else {
+			availableCompanies = revisedConnectionList
+		}
+		params.possibleConnections = availableCompanies
 	}
 
 	def proposal() {}
@@ -131,12 +145,31 @@ class UserController {
 		products
 	}
 
-	private displayCreatedAuctions() {
+	private displayLiveAuctions() {
 		def u = session.user
-		def createdAuctions = Auction.findAllByHost(u) {
+		def live = 'Live Auction'
+		def liveAuctions = Auction.findAllByHostAndType(u, live) {
 
 		}
-		createdAuctions
+		liveAuctions
+	}
+	
+	private displayQuotesAuctions() {
+		def u = session.user
+		def quotes = 'Quotes Auction'
+		def quotesAuctions = Auction.findAllByHostAndType(u, quotes) {
+
+		}
+		quotesAuctions
+	}
+	
+	private displayGeneralAuctions() {
+		def u = session.user
+		def general = 'General Auction'
+		def generalAuctions = Auction.findAllByHostAndType(u, general) {
+
+		}
+		generalAuctions
 	}
 
 }
