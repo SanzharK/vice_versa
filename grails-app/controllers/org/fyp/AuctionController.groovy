@@ -18,6 +18,8 @@ class AuctionController {
 	def quotesAuctionBidderView() {
 		def auction = Auction.findById(params.id)
 		params.currentAuction = auction
+		def messages = displayForumMessages(auction)
+		params.messages = messages
 	}
 
 	def quotesAuctionHostView() {
@@ -30,6 +32,7 @@ class AuctionController {
 	def liveAuctionBidderView() {
 		def auction = Auction.findById(params.id)
 		params.currentAuction = auction
+		// this is not right!
 		def currentBids = Bid.listOrderByAmount(order: "asc")
 		def currentWinner = currentBids[0]
 		System.out.println(currentWinner)
@@ -44,6 +47,9 @@ class AuctionController {
 		System.out.println(exactDate +"---"+ milliseconds +" vs "+startDateMillis)
 		params.auctionTime = auction.endDate
 		params.exactDate = exactDate
+		// messages
+		def messages = displayForumMessages(auction)
+		params.messages = messages		
 	}
 	
 	def liveAuctionHostView() {
@@ -65,12 +71,14 @@ class AuctionController {
 			def quotesAuction = new Auction(params)
 			def user = session.user
 			def bidderEmail = new ArrayList<String>()
-			def bids = []
+			def bids = new ArrayList<Bid>()
 			quotesAuction.host = user
 			quotesAuction.bidderEmail = bidderEmail
 			quotesAuction.bids = bids
 			quotesAuction.type = 'Quotes Auction'
 			quotesAuction.status = 'announced'
+			def auctionForum = new AuctionForum(auction: quotesAuction)
+			auctionForum.messages = new ArrayList<ForumMessage>() 
 			if (! quotesAuction.save(flush: true)) {
 				quotesAuction.errors.each {
 					println it
@@ -87,15 +95,18 @@ class AuctionController {
 		if(request.method == 'POST') {
 			def liveAuction = new Auction(params)
 			def user = session.user
-			def bidderEmail = new ArrayList<String>()
-			def bids = []
+			def bids = new ArrayList<Bid>()
 			liveAuction.host = user
-			liveAuction.bidderEmail = bidderEmail
 			liveAuction.bids = bids
 			liveAuction.type = 'Live Auction'
 			liveAuction.status = 'announced'
-			if (! liveAuction.save(flush: true)) {
+			def auctionForum = new AuctionForum(auction: liveAuction)
+			auctionForum.messages = new ArrayList<ForumMessage>()
+			if (! (liveAuction.save(flush: true) && auctionForum.save(flush: true))) {
 				liveAuction.errors.each {
+					println it
+				}
+				auctionForum.errors.each {
 					println it
 				}
 				System.out.println('Auction was not created')
@@ -134,7 +145,6 @@ class AuctionController {
 
 	def startAuction() {
 		def auction = Auction.findById(params.id)
-		System.out.println(auction)
 		auction.status = 'started'
 		if (! auction.save()) {
 			auction.errors.each {
@@ -158,5 +168,11 @@ class AuctionController {
 		def startDate = auction.startDate
 		def exactDate = startDate.format("yyyy/mm/dd hh/mm/ss")
 		def endDate = auction.endDate
+	}
+	
+	private displayForumMessages(auction) {
+		def forum = AuctionForum.findByAuction(auction)
+		def messages = ForumMessage.findAllByForum(forum)
+		messages
 	}
 }

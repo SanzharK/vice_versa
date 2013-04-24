@@ -72,18 +72,14 @@
 						</tr>
 					</thead>
 					<tbody>
+						<g:each var="message" in="${params.messages}">
 						<tr class="first" style="float: left; height: 80px">
-							<td>There are no posts yet.</td>
+							<td>${message.message }</td>
 						</tr>
 						<tr class="alt" style="height: 80px">
-							<td></td>
+							<td>Posted by ${message.sender.companyName }</td>
 						</tr>
-						<tr style="height: 80px">
-							<td></td>
-						</tr>
-						<tr style="height: 80px">
-							<td></td>
-						</tr>
+						</g:each>
 					</tbody>
 				</table>
 			</div>

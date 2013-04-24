@@ -9,7 +9,6 @@ class Auction {
 	Date startDate
 	Date endDate
 	User host
-	List<String> bidderEmail
 	List<Bid> bids
 	String status
 	String category

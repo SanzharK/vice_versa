@@ -22,7 +22,7 @@
 		jQuery(document).ready(function() {
 			jQuery("#countdown").jCountdown({
 				timeText : "${params.exactDate}",
-					timeZone : 0,
+					timeZone : 1,
 					style : "metal",
 					color : "black",
 					width : 0,
@@ -43,7 +43,16 @@
 				});
 			});
 		</script>
-		<h4 class="col_2"><font color="orange">Currently Winning Bid is <label>${params.currentWinningBid.amount}</label></font></h4>
+		<h4 class="col_2">
+			<font color="orange">Currently Winning Bid is <label>
+				<g:if test="${params.currentWinningBid == null}">
+				not yet submitted
+				</g:if>
+				<g:else>
+					${params.currentWinningBid.amount}
+				</g:else>
+			</label></font>
+		</h4>
 	</div>
 	<div id="auctionInfo" class="col_4 column">
 		<font color="#60abf8"> <span class="icon x-large green"
@@ -103,7 +112,7 @@
 	</div>
 	<div class="col_4">
 		<span class="icon green x-large" data-icon="'"></span>
-		<g:form url="[controller:'bid',action:'newBid']">
+		<g:form url="[controller:'forumMessage',action:'newForumMessage']">
 			<div id="messagesForAuction">
 				<table class="striped">
 					<thead>
@@ -112,24 +121,21 @@
 						</tr>
 					</thead>
 					<tbody>
+						<g:each var="message" in="${params.messages}">
 						<tr class="first" style="float: left; height: 80px">
-							<td>There are no posts yet.</td>
+							<td>${message.message }</td>
 						</tr>
 						<tr class="alt" style="height: 80px">
-							<td></td>
+							<td>Posted by ${message.sender.companyName }</td>
 						</tr>
-						<tr style="height: 80px">
-							<td></td>
-						</tr>
-						<tr style="height: 80px">
-							<td></td>
-						</tr>
+						</g:each>
 					</tbody>
 				</table>
 			</div>
 			<textarea rows="4" style="width: 100%;"
-				placeholder="Max. 145 characters"></textarea>
+				placeholder="Max. 145 characters" name="message"></textarea>
 			<p>
+				<g:hiddenField name="auctionId" value="${params.currentAuction.id }" />
 				<button class="blue pill" type="submit" style="float: right;">
 					<span class="icon" data-icon='"'></span>
 					<g:message code="Post"></g:message>

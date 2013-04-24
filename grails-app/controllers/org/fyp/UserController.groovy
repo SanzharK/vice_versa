@@ -86,13 +86,35 @@ class UserController {
 		def requestedUser = User.findById(params.id)
 		def currentUser = session.user
 		currentUser.connections.add(requestedUser.companyName)
+		requestedUser.connections.add(currentUser.companyName)
 		currentUser.save()
+		requestedUser.save()
+		def connectionForum = new ConnectionForum()
+		connectionForum.participants = new ArrayList<String>()
+		connectionForum.participants.add(currentUser.companyName)
+		connectionForum.participants.add(requestedUser.companyName)
+		connectionForum.messages = new ArrayList<ConnectionMessages>()
+		connectionForum.save()
 		redirect(controller:'user', action:'myPage')
 	}
 
 	def message() {
 		def currentUser = session.user
 		params.connections = currentUser.connections
+		def connections = currentUser.connections
+		def connectionForums = ConnectionForum.findAllByParticipants(currentUser.companyName)
+		def revisedConnectionForums = []
+		for(int i =0; i < connections.size(); i++) {
+			for(int z = 0; z< connectionForums.size(); z++) {
+				for(int x = 0; x<2; x++) {
+					if(connections[i].equals(connectionForums[z].participants[x])) {
+						revisedConnectionForums.add(connectionForums[z])
+					}
+				}
+			}
+		}
+		System.out.println(revisedConnectionForums)
+		params.connectionForums = revisedConnectionForums
 	}
 
 	def connect() {

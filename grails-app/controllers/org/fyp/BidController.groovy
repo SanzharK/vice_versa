@@ -12,7 +12,6 @@ class BidController {
 			bid.bidder = user
 			def auction = Auction.get(params.auctionId)
 			bid.auction = auction
-			auction.bids.add(bid)
 			if (! bid.save(flush: true)) {
 				bid.errors.each {
 					println it

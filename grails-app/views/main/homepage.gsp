@@ -26,7 +26,7 @@
 	</ul>
 	</div>
 	
-	<div id="slideshow" class="col_6">
+	<div id="twitter" class="col_6">
 	<a class="twitter-timeline" href="https://twitter.com/Sanzhik"
 		data-widget-id="322740988630138881">Tweets by @Sanzhik</a>
 	<script>
