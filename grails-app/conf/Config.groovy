@@ -99,3 +99,17 @@ grails.mongo.default.mapping = {
 	version false
 	'*'(reference:true)
 }
+
+//Mail config
+grails {
+	mail {
+	  host = "smtp.gmail.com"
+	  port = 465
+	  username = "sanzhar.kushekbayev@gmail.com"
+	  password = "sanzhar91"
+	  props = ["mail.smtp.auth":"true",
+			   "mail.smtp.socketFactory.port":"465",
+			   "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+			   "mail.smtp.socketFactory.fallback":"false"]
+ 
+ } }

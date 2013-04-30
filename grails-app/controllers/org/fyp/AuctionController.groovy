@@ -4,17 +4,6 @@ class AuctionController {
 
 	def index() { }
 
-	def liveAuctionHost() {
-		def auction = Auction.findById(params.id)
-		params.currentAuction = auction
-		//		def message = new ForumMessage(message: params.message)
-		//		def sender = session.user
-		//		message.sender = sender
-		//		def forum = AuctionForum.findByAuction(auction)
-		//		message.forum = forum
-		//		forum.messages.add(message)
-	}
-
 	def quotesAuctionBidderView() {
 		def auction = Auction.findById(params.id)
 		params.currentAuction = auction
@@ -28,7 +17,7 @@ class AuctionController {
 		def currentBids = Bid.findAllByAuction(auction)
 		params.currentBids = currentBids
 	}
-	
+
 	def liveAuctionBidderView() {
 		def auction = Auction.findById(params.id)
 		params.currentAuction = auction
@@ -49,9 +38,9 @@ class AuctionController {
 		params.exactDate = exactDate
 		// messages
 		def messages = displayForumMessages(auction)
-		params.messages = messages		
+		params.messages = messages
 	}
-	
+
 	def liveAuctionHostView() {
 		def auction = Auction.findById(params.id)
 		params.currentAuction = auction
@@ -63,6 +52,15 @@ class AuctionController {
 
 	def auctionHome() {
 		def auctions = Auction.findAll()
+		def currentUser = getCurrentUser()
+		// check if a user is logged in
+		if(session.user) {
+			for(int i = 0; i < auctions.size(); i++) {
+				if(auctions[i].host.email == currentUser.email) {
+					auctions.remove(auctions[i])
+				}
+			}
+		}
 		params.auctions = auctions
 	}
 
@@ -78,7 +76,7 @@ class AuctionController {
 			quotesAuction.type = 'Quotes Auction'
 			quotesAuction.status = 'announced'
 			def auctionForum = new AuctionForum(auction: quotesAuction)
-			auctionForum.messages = new ArrayList<ForumMessage>() 
+			auctionForum.messages = new ArrayList<ForumMessage>()
 			if (! quotesAuction.save(flush: true)) {
 				quotesAuction.errors.each {
 					println it
@@ -94,9 +92,9 @@ class AuctionController {
 	def newLiveAuction() {
 		if(request.method == 'POST') {
 			def liveAuction = new Auction(params)
-			def user = session.user
+			//def user = session.user
 			def bids = new ArrayList<Bid>()
-			liveAuction.host = user
+			liveAuction.host = getCurrentUser()
 			liveAuction.bids = bids
 			liveAuction.type = 'Live Auction'
 			liveAuction.status = 'announced'
@@ -122,7 +120,7 @@ class AuctionController {
 	def newAuction = {
 		if(request.method == 'POST') {
 			def auction = new Auction(title: params.title, description: params.description, startDate: params.startDate, endDate: params.endDate)
-			def user = session.user
+			def user = getCurrentUser()
 			def bidders = []
 			def bids = []
 			auction.host = user
@@ -156,20 +154,25 @@ class AuctionController {
 			redirect(controller:'user', action:'myPage')
 		}
 	}
-
+	
+	private getCurrentUser() {
+		def currentUser = session.user
+		currentUser
+	}
+	
 	private findAuction() {
 		def auctions = Auction.findAll() {
 
 		}
 		auctions
 	}
-	
+
 	private getExactTimeAndDate(Auction auction) {
 		def startDate = auction.startDate
 		def exactDate = startDate.format("yyyy/mm/dd hh/mm/ss")
 		def endDate = auction.endDate
 	}
-	
+
 	private displayForumMessages(auction) {
 		def forum = AuctionForum.findByAuction(auction)
 		def messages = ForumMessage.findAllByForum(forum)

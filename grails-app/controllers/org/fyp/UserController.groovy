@@ -23,6 +23,12 @@ class UserController {
 			def u = new User(params)
 			def connections = new ArrayList<String>()
 			u.connections = connections
+			def receiver = params.email
+			sendMail {
+				to receiver
+				subject "Congratulations on your Registration!"
+				body "Welcome to Tendora! We hope you will enjoy our web site!"
+			}
 			//u.passwordHashed = u.password.encodeAsPassword()
 			if (! u.save()) {
 				// validation failed, render registration page again
