@@ -22,7 +22,8 @@ class AuctionController {
 		def auction = Auction.findById(params.id)
 		params.currentAuction = auction
 		// this is not right!
-		def currentBids = Bid.listOrderByAmount(order: "asc")
+		def currentBids = Bid.findAllByAuction(auction, [sort:"amount", order:"asc"])
+		System.out.println(currentBids.amount)
 		def currentWinner = currentBids[0]
 		System.out.println(currentWinner)
 		params.currentWinningBid = currentWinner
@@ -46,44 +47,68 @@ class AuctionController {
 		params.currentAuction = auction
 		def currentBids = Bid.findAllByAuction(auction)
 		params.currentBids = currentBids
+		def exactDate = auction.endDate.format("yyyy/MM/dd HH/mm/ss")
+		params.exactDate = exactDate
+		def messages = displayForumMessages(auction)
+		params.messages = messages
 	}
 
 	def chooseAuction() {}
 
 	def auctionHome() {
-		def auctions = Auction.findAll()
+		def liveAuctions = Auction.findAllByType('Live Auction')
+		def quotesAuctions = Auction.findAllByType('Quotes Auction')
+		def generalAuctions = Auction.findAllByType('General Auction')
 		def currentUser = getCurrentUser()
-		// check if a user is logged in
+		// check if a user is logged in and then delete him from the list of tenders displayed
 		if(session.user) {
-			for(int i = 0; i < auctions.size(); i++) {
-				if(auctions[i].host.email == currentUser.email) {
-					auctions.remove(auctions[i])
+			for(int i = 0; i < liveAuctions.size(); i++) {
+				if(liveAuctions[i].host.email == currentUser.email) {
+					liveAuctions.remove(liveAuctions[i])
 				}
 			}
+			params.liveAuctions = liveAuctions
+			for(int i = 0; i < quotesAuctions.size(); i++) {
+				if(quotesAuctions[i].host.email == currentUser.email) {
+					quotesAuctions.remove(quotesAuctions[i])
+				}
+			}
+			params.quotesAuctions = quotesAuctions
+			for(int i = 0; i < generalAuctions.size(); i++) {
+				if(generalAuctions[i].host.email == currentUser.email) {
+					generalAuctions.remove(generalAuctions[i])
+				}
+			}
+			params.generalAuctions = generalAuctions
 		}
-		params.auctions = auctions
 	}
 
 	def newQuotesAuction() {
 		if(request.method == 'POST') {
 			def quotesAuction = new Auction(params)
-			def user = session.user
-			def bidderEmail = new ArrayList<String>()
+			def user = getCurrentUser()
 			def bids = new ArrayList<Bid>()
 			quotesAuction.host = user
-			quotesAuction.bidderEmail = bidderEmail
 			quotesAuction.bids = bids
 			quotesAuction.type = 'Quotes Auction'
 			quotesAuction.status = 'announced'
 			def auctionForum = new AuctionForum(auction: quotesAuction)
 			auctionForum.messages = new ArrayList<ForumMessage>()
-			if (! quotesAuction.save(flush: true)) {
+			if (! (quotesAuction.save(flush: true) && auctionForum.save(flush: true))) {
 				quotesAuction.errors.each {
+					println it
+				}
+				auctionForum.errors.each {
 					println it
 				}
 				System.out.println('Auction was not created')
 				return [auction:quotesAuction]
 			} else {
+				sendMail {
+					to "tweet@tweetymail.com"
+					subject ""
+					body "New Quotes Tender was created on #tendora by " + quotesAuction.host.companyName + "! #tendora_" + params.category
+				}
 				redirect(controller:'user', action:'myPage')
 			}
 		}
@@ -110,36 +135,17 @@ class AuctionController {
 				System.out.println('Auction was not created')
 				return [auction:liveAuction]
 			} else {
+				sendMail {
+					to "tweet@tweetymail.com"
+					subject ""
+					body "New Live Tender was created on #tendora by " + liveAuction.host.companyName + "! #tendora_" + params.category
+				}
 				redirect(controller:'user', action:'myPage')
 			}
 		}
 	}
 
 	def newGeneralAuction() { }
-
-	def newAuction = {
-		if(request.method == 'POST') {
-			def auction = new Auction(title: params.title, description: params.description, startDate: params.startDate, endDate: params.endDate)
-			def user = getCurrentUser()
-			def bidders = []
-			def bids = []
-			auction.host = user
-			auction.bidders = bidders
-			auction.bids = bids
-			def auctionForum = new AuctionForum(auction: auction)
-			def auctionForumMessages = ['There are no posts yet']
-			auctionForum.messages = auctionForumMessages
-			if (! auction.save()) {
-				auction.errors.each {
-					println it
-				}
-				System.out.println('Auction was not created')
-				return [auction:auction]
-			} else {
-				redirect(controller:'user', action:'myPage')
-			}
-		}
-	}
 
 	def startAuction() {
 		def auction = Auction.findById(params.id)
@@ -154,12 +160,12 @@ class AuctionController {
 			redirect(controller:'user', action:'myPage')
 		}
 	}
-	
+
 	private getCurrentUser() {
 		def currentUser = session.user
 		currentUser
 	}
-	
+
 	private findAuction() {
 		def auctions = Auction.findAll() {
 

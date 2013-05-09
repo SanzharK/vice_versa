@@ -2,6 +2,7 @@
 <head>
 <title>FYP - Live Auction</title>
 <meta name="layout" content="main">
+<meta http-equiv="refresh" content="5" >
 <link href="${resource(dir:'/jcountdown',file:'jcountdown.css')}"
 	rel="stylesheet" type="text/css">
 <g:javascript src="jcountdown/jquery.jcountdown.min.js" />

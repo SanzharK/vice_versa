@@ -55,8 +55,8 @@
 											data-icon="U"></span>Connections</a></li>
 									<li><a href="/final_year_project/user/message"><span
 											class="icon small blue" data-icon='"'></span>Messages</a></li>
-									<li><a href="/final_year_project/user/proposal"><span
-											class="icon small blue" data-icon='@'></span>Proposals</a></li>
+									<!--<li><a href="/final_year_project/user/proposal"><span
+											class="icon small blue" data-icon='@'></span>Proposals</a></li> -->
 								</ul></li>
 						</g:if>
 						<li><a href="/final_year_project/auction/auctionHome"><span

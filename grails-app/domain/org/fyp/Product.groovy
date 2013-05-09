@@ -13,5 +13,7 @@ class Product {
     static constraints = {
 		title blank:false;
 		description  blank:false;
+		// Limit upload file size to 2MB
+		image maxSize: 1024 * 1024 * 2
     }
 }

@@ -8,7 +8,6 @@
 	<g:form class="simpleform" url="[controller:'product',action:'newProduct']">
   		<fieldset>
     	<legend>Product</legend>
-    	
     	<p>
           <label for="title" class="col_1">Product Name</label>
           <g:textField name="title" class="col_3"/>

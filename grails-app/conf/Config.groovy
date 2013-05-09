@@ -113,3 +113,21 @@ grails {
 			   "mail.smtp.socketFactory.fallback":"false"]
  
  } }
+
+//Stripe config
+grails.plugins.stripe.secretKey = 'sk_test_B8HR2jyDX4bWHsRHkskk2SOe'
+grails.plugins.stripe.publishableKey = 'pk_test_5FAPIOE90cIgcbqNmwMZ1iZJ'
+
+//Paypal Config
+environments {
+//	production {
+//	   grails.paypal.server = "https://www.paypal.com/cgi-bin/webscr"
+//	   grails.paypal.email = "example@business.com"
+//	   grails.serverURL = "http://www.grails.org"
+//	}
+	development {
+	   grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
+	   grails.paypal.email = "sanzhar.kushekbayev@g2one.com"
+	   grails.serverURL = "http://localhost"
+	}
+  }

@@ -26,7 +26,10 @@
 		</h2>
 		<g:each var="connection" in="${params.existingConnections}">
 			<h5>
-				<font color='#3498DB'> ${connection}
+				<font color='#3498DB'>
+				<g:link controller="user" action="show" id="${connection}">
+						${connection}
+					</g:link>
 				</font>
 			</h5>
 		</g:each>

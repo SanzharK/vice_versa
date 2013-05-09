@@ -16,31 +16,38 @@
 	</div>
 
 	<!-- Slideshow -->
-	<div id="slideshow" class="col_6">
-	<ul class="slideshow" width="550" height="350">
-		<li><img src="${resource(dir:'images',file:'latest_tweets.jpg')}"
-			width="550" height="350" /></li>
-		<li><img
-			src="http://placehold.it/550x350/E49800/ffffff.png&text=550x350"
-			width="550" height="350" /></li>
-	</ul>
+	<div id="slideshow" class="col_8">
+		<ul class="slideshow" width="750" height="450">
+			<li><img
+				src="${resource(dir:'images',file:'auction_hammer.jpg')}"
+				width="750" height="450" /></li>
+			<li><img
+				src="${resource(dir:'images',file:'savings.jpg')}"
+				width="750" height="450" /></li>
+			<li><img
+				src="${resource(dir:'images',file:'real-time-bidding.jpg')}"
+				width="750" height="450" /></li>
+			<li><img
+				src="${resource(dir:'images',file:'get_connected_logo.jpg')}"
+				width="750" height="450" /></li>		
+		</ul>
 	</div>
-	
-	<div id="twitter" class="col_6">
-	<a class="twitter-timeline" href="https://twitter.com/Sanzhik"
-		data-widget-id="322740988630138881">Tweets by @Sanzhik</a>
-	<script>
-		!function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/
-					.test(d.location) ? 'http' : 'https';
-			if (!d.getElementById(id)) {
-				js = d.createElement(s);
-				js.id = id;
-				js.src = p + "://platform.twitter.com/widgets.js";
-				fjs.parentNode.insertBefore(js, fjs);
-			}
-		}(document, "script", "twitter-wjs");
-	</script>
+
+	<div id="twitter" class="col_4">
+		<a class="twitter-timeline" href="https://twitter.com/Sanzhik"
+			data-widget-id="322740988630138881">Tweets by @Sanzhik</a>
+		<script>
+			!function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/
+						.test(d.location) ? 'http' : 'https';
+				if (!d.getElementById(id)) {
+					js = d.createElement(s);
+					js.id = id;
+					js.src = p + "://platform.twitter.com/widgets.js";
+					fjs.parentNode.insertBefore(js, fjs);
+				}
+			}(document, "script", "twitter-wjs");
+		</script>
 	</div>
 
 </body>

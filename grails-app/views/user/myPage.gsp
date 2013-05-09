@@ -72,7 +72,9 @@
 			<h4>Products</h4>
 			<ul id="products" class="alt">
 				<g:each var="product" in="${params.products}">
-					<li><a> ${product.title}</a></li>
+					<li><a> ${product.title}</a>
+					<p><div>${product.image}</div></p>
+					</li>
 				</g:each>
 			</ul>
 			<button class="green pill"

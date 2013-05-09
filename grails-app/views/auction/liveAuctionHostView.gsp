@@ -2,6 +2,7 @@
 <head>
 <title>FYP - Live Auction</title>
 <meta name="layout" content="main">
+<meta http-equiv="refresh" content="5">
 <link href="${resource(dir:'/jcountdown',file:'jcountdown.css')}"
 	rel="stylesheet" type="text/css">
 <g:javascript src="jcountdown/jquery.jcountdown.min.js" />
@@ -11,13 +12,16 @@
 		<font color="orange"> ${params.currentAuction.title }
 		</font>
 	</h4>
-	<h4><font color="orange">Time Left:</font></h4>
+	<h4>
+		<font color="orange">Time Left:</font>
+	</h4>
 	<div id="countdown"></div>
 	<script>
 		jQuery(document).ready(function() {
 			jQuery("#countdown").jCountdown({
-				timeText : "2020/01/01 00:00:00",
-				timeZone : 8,
+				timeText : "${params.exactDate}
+		",
+				timeZone : 1,
 				style : "metal",
 				color : "black",
 				width : 0,
@@ -86,7 +90,42 @@
 			</div>
 		</div>
 	</div>
-	<div class="col_8">
+	<div class="col_4">
+		<span class="icon green x-large" data-icon="'"></span>
+		<g:form url="[controller:'forumMessage',action:'newForumMessage']">
+			<div id="messagesForAuction">
+				<table class="striped">
+					<thead>
+						<tr>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<g:each var="message" in="${params.messages}">
+							<tr class="first" style="float: left; height: 80px">
+								<td>
+									${message.message }
+								</td>
+							</tr>
+							<tr class="alt" style="height: 80px">
+								<td>Posted by ${message.sender.companyName }</td>
+							</tr>
+						</g:each>
+					</tbody>
+				</table>
+			</div>
+			<textarea rows="4" style="width: 100%;"
+				placeholder="Max. 145 characters" name="message"></textarea>
+			<p>
+				<g:hiddenField name="auctionId" value="${params.currentAuction.id }" />
+				<button class="blue pill" type="submit" style="float: right;">
+					<span class="icon" data-icon='"'></span>
+					<g:message code="Post"></g:message>
+				</button>
+			</p>
+		</g:form>
+	</div>
+	<div class="col_4">
 		<div id="current winner"></div>
 		<table class="sortable">
 			<thead>
@@ -113,10 +152,13 @@
 							${bid.comment}
 						</td>
 						<td><button class="green pill"
-								onClick="window.location = '/final_year_project/' ">
+								onClick="window.location = '/final_year_project/checkout/index' ">
 								<span class="icon" data-icon="c"></span>
 								<g:message code="Accept"></g:message>
-							</button></td>
+							</button>
+						<paypal:button itemName="${params.currentAuction.title}" itemNumber="${params.currentAuction.id}"
+							transactionId="${params.currentAuction.id}" amount="${bid.amount}"
+							buyerId="${params.currentAuction.host.id}" /></td>
 					</tr>
 				</g:each>
 			</tbody>

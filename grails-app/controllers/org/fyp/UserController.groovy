@@ -1,5 +1,6 @@
 package org.fyp
 
+import java.math.MathContext
 import org.fyp.Service
 
 @Grab(group='com.gmongo', module='gmongo', version='1.0')
@@ -23,10 +24,10 @@ class UserController {
 			def u = new User(params)
 			def connections = new ArrayList<String>()
 			u.connections = connections
-			def receiver = params.email
+			//def receiver = params.email --> creating fake emails
 			sendMail {
-				to receiver
-				subject "Congratulations on your Registration!"
+				to 'sanzhar@hotmail.de'
+				subject "Congratulations on your Registration with Tendora!"
 				body "Welcome to Tendora! We hope you will enjoy our web site!"
 			}
 			//u.passwordHashed = u.password.encodeAsPassword()
@@ -80,12 +81,21 @@ class UserController {
 	}
 
 	def show() {
-		def user = User.findById(params.id)
-		params.searchedUser = user
-		def products = Product.findAllByUser(user)
+		def searchedUser = User.findByCompanyName(params.id)
+		params.searchedUser = searchedUser
+		def products = Product.findAllByUser(searchedUser)
 		params.products = products
-		def services = Service.findAllByUser(user)
+		def services = Service.findAllByUser(searchedUser)
 		params.services = services
+		def reviews = Review.findAllByReviewdCompany(searchedUser)
+		params.reviews = reviews
+		double totalRating;
+		for(int i=0; i < reviews.size(); i++) {
+			totalRating += reviews[i].rating
+		}
+		double average = totalRating / reviews.size() * 2
+		average = doubleRoundHalfUp(average, 0) / 2
+		params.average = average
 	}
 
 	def addConnection() {
@@ -158,6 +168,26 @@ class UserController {
 	}
 
 	def proposal() {}
+	
+	def rate () {
+		if(request.method == 'POST') {
+			def review = new Review()
+			review.reviewdCompany = User.findByCompanyName(params.ratedCompany)
+			review.reviewer = session.user
+			review.comment = params.comment
+			review.rating = params.ratingInt as double
+			System.out.println(params.ratingInt)
+			if (!review.save(flush: true)) {
+				review.errors.each {
+					println it
+				}
+				System.out.println('Review was not created')
+				return [review:review]
+			} else {
+				redirect(controller:'user', action:'connect')
+			}
+		}
+	}
 
 	private displayServices() {
 		def u = session.user
@@ -176,28 +206,40 @@ class UserController {
 	private displayLiveAuctions() {
 		def u = session.user
 		def live = 'Live Auction'
-		def liveAuctions = Auction.findAllByHostAndType(u, live) {
+		//if(Auction.exists()) { --> needs to be uncommented when a database is dropped.
+			def liveAuctions = Auction.findAllByHostAndType(u, live) {
 
-		}
-		liveAuctions
+			}
+			liveAuctions
+		//}
 	}
-	
+
 	private displayQuotesAuctions() {
 		def u = session.user
 		def quotes = 'Quotes Auction'
-		def quotesAuctions = Auction.findAllByHostAndType(u, quotes) {
+		//if(Auction.exists() == true) {
+			def quotesAuctions = Auction.findAllByHostAndType(u, quotes) {
 
-		}
-		quotesAuctions
+			}
+			quotesAuctions
+		//}
 	}
-	
+
 	private displayGeneralAuctions() {
 		def u = session.user
 		def general = 'General Auction'
-		def generalAuctions = Auction.findAllByHostAndType(u, general) {
+		//if(Auction.exists()) {
+			def generalAuctions = Auction.findAllByHostAndType(u, general) {
 
-		}
-		generalAuctions
+			}
+			generalAuctions
+		//}
+	}
+	
+	def doubleRoundHalfUp = { x, p ->
+		BigDecimal bd = new BigDecimal(String.valueOf(x))
+		BigDecimal bdRounded = bd.setScale(p , BigDecimal.ROUND_HALF_UP)
+		return bdRounded.doubleValue()
 	}
 
 }
