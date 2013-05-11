@@ -5,7 +5,7 @@
 	</head>
 	<body>
 	<h5>You can create your new Product here</h5>
-	<g:form class="simpleform" url="[controller:'product',action:'newProduct']">
+	<g:form class="simpleform" url="[controller:'product',action:'newProduct']" enctype="multipart/form-data">
   		<fieldset>
     	<legend>Product</legend>
     	<p>

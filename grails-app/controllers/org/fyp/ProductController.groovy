@@ -1,16 +1,26 @@
 package org.fyp
 
-class ProductController {
+import org.springframework.web.multipart.MultipartHttpServletRequest
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
-    def springSecurityService
+class ProductController {
 
     def index() { }
 	
 	def newProduct = {
-		if(request.method == 'POST') {
-			def product = new Product(title: params.title, description: params.description, image: params.image)
+		if(request instanceof MultipartHttpServletRequest) {
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
+			CommonsMultipartFile file = (CommonsMultipartFile)multiRequest.getFile("image");
+			
+			params.photoType  = file.getContentType()
+			
+			def product = new Product(title: params.title, description: params.description)
 			def user = session.user
+			def image = new byte[file.bytes.length]
+			image = file.getBytes()
 			product.user = user
+			product.image = image
+			product.imageType = file.getContentType()
 			if (! product.save()) {
 				// validation failed, render registration page again
 				return [product:product]
@@ -21,7 +31,13 @@ class ProductController {
 		}
 	}
 	
-	private lookupUser() {
-		User.get(springSecurityService.principal.id)
+	def displayImage = {
+		def product = Product.get(params.id)
+		System.out.println(product)
+		byte[] image = product.image
+		response.setContentType('image/jpeg')
+		//System.out.println(image.getContentType())
+		response.outputStream << image
+		response.outputStream.flush()
 	}
 }

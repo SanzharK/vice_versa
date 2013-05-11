@@ -52,14 +52,14 @@ class UserController {
 			if (u) {
 				// username and password match -> log in
 				session.user = u
-				redirect(controller:'main', action:'homepage')
+				redirect(controller:'user', action:'myPage')
 			} else {
 				flash.message = "User not found"
 				redirect(controller:'main', action:'homepage')
 			}
 		} else if (session.user) {
 			// don't allow login while user is logged in
-			redirect(controller:'main')
+			redirect(controller:'main', action:'homepage')
 		}
 	}
 
@@ -206,7 +206,7 @@ class UserController {
 	private displayLiveAuctions() {
 		def u = session.user
 		def live = 'Live Auction'
-		//if(Auction.exists()) { --> needs to be uncommented when a database is dropped.
+		//if(Auction.exists()) { //--> needs to be uncommented when a database is dropped.
 			def liveAuctions = Auction.findAllByHostAndType(u, live) {
 
 			}
@@ -217,23 +217,23 @@ class UserController {
 	private displayQuotesAuctions() {
 		def u = session.user
 		def quotes = 'Quotes Auction'
-		//if(Auction.exists() == true) {
+	//	if(Auction.exists() == true) {
 			def quotesAuctions = Auction.findAllByHostAndType(u, quotes) {
 
 			}
 			quotesAuctions
-		//}
+	//	}
 	}
 
 	private displayGeneralAuctions() {
 		def u = session.user
 		def general = 'General Auction'
-		//if(Auction.exists()) {
+		if(Auction.exists()) {
 			def generalAuctions = Auction.findAllByHostAndType(u, general) {
 
 			}
 			generalAuctions
-		//}
+		}
 	}
 	
 	def doubleRoundHalfUp = { x, p ->

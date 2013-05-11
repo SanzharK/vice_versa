@@ -1,8 +1,30 @@
 package org.fyp
 
+//import javax.swing.text.Document
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.select.Elements
+
+
 class AuctionController {
 
 	def index() { }
+	
+	def tendoraGenius() {
+		def tenderTitle = params.title
+		def tenderCategory = params.category
+		def tenderCurrency = params.currency
+		def tenderDescription = params.description
+		
+		@Grapes( @Grab('org.jsoup:jsoup:1.6.1'))
+		Document doc = Jsoup.connect("http://www.huntoffice.ie/basic-office-tables.html").get();
+		def results = doc.select("table.new-products-list td.product")
+		params.results = results
+		
+		Document docIkea = Jsoup.connect("http://www.ikea.com/us/en/catalog/categories/departments/workspaces/20651/?filter=online").get();
+		def resultsIkea = doc.select("div.productLists")
+		params.resultsIke = resultsIkea
+	}
 
 	def quotesAuctionBidderView() {
 		def auction = Auction.findById(params.id)

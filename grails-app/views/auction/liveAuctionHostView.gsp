@@ -2,7 +2,7 @@
 <head>
 <title>FYP - Live Auction</title>
 <meta name="layout" content="main">
-<meta http-equiv="refresh" content="5">
+<!-- <meta http-equiv="refresh" content="5"> -->
 <link href="${resource(dir:'/jcountdown',file:'jcountdown.css')}"
 	rel="stylesheet" type="text/css">
 <g:javascript src="jcountdown/jquery.jcountdown.min.js" />
@@ -156,9 +156,17 @@
 								<span class="icon" data-icon="c"></span>
 								<g:message code="Accept"></g:message>
 							</button>
-						<paypal:button itemName="${params.currentAuction.title}" itemNumber="${params.currentAuction.id}"
-							transactionId="${params.currentAuction.id}" amount="${bid.amount}"
-							buyerId="${params.currentAuction.host.id}" /></td>
+							<g:form controller="checkout" action="charge" method="POST">
+							<g:hiddenField name="amount" value="${bid.amount }"/>
+							<g:hiddenField name="description" value="${params.currentAuction.title }"/>
+								<script src="https://checkout.stripe.com/v2/checkout.js"
+									class="stripe-button"
+									data-key="pk_test_CcW6XFMWlFJ7HRytPt9Pi7er" data-amount="${bid.amount *100} "
+									data-name="${bid.bidder.companyName}" data-description="${params.currentAuction.title }"
+									data-image="https://zapier.cachefly.net/storage/services/0cbeb8038d3a9eefbb0963a1f8910822.128x128.png">
+  								</script>
+							</g:form>
+						</td>
 					</tr>
 				</g:each>
 			</tbody>

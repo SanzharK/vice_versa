@@ -77,7 +77,8 @@
 							<!-- END #login -->
 						</g:if>
 						<g:else>
-							<g:form url="[controller:'user',action:'login']">
+							<g:form action="login" method="post" controller="user">
+							<!-- url="[controller:'user',action:'login']" --> 
 								<li><g:textField name="email" placeholder="Email"
 										class="input" /></li>
 								<li><g:passwordField name="password" placeholder="Password" /></li>

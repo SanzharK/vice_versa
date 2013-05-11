@@ -115,19 +115,19 @@ grails {
  } }
 
 //Stripe config
-grails.plugins.stripe.secretKey = 'sk_test_B8HR2jyDX4bWHsRHkskk2SOe'
-grails.plugins.stripe.publishableKey = 'pk_test_5FAPIOE90cIgcbqNmwMZ1iZJ'
+grails.plugins.stripe.secretKey = 'sk_test_jcfKIoYybil8KZ9o8HGf4A0q'
+grails.plugins.stripe.publishableKey = 'pk_test_CcW6XFMWlFJ7HRytPt9Pi7er'
 
 //Paypal Config
-environments {
+//environments {
 //	production {
 //	   grails.paypal.server = "https://www.paypal.com/cgi-bin/webscr"
 //	   grails.paypal.email = "example@business.com"
 //	   grails.serverURL = "http://www.grails.org"
 //	}
-	development {
-	   grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
-	   grails.paypal.email = "sanzhar.kushekbayev@g2one.com"
-	   grails.serverURL = "http://localhost"
-	}
-  }
+//	development {
+//	   grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
+//	   grails.paypal.email = "sanzhar.kushekbayev@g2one.com"
+//	   grails.serverURL = "http://localhost"
+//	}
+//  }

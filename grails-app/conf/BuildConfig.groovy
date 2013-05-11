@@ -41,7 +41,7 @@ grails.project.dependency.resolution = {
        // runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.0"
         runtime ":resources:1.1.6"
-		//compile ':spring-security-core:1.2.7.3'
+		compile ':spring-security-core:1.2.7.3'
 		
 
         // Uncomment these (or add new ones) to enable additional resources capabilities

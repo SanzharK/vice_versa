@@ -73,7 +73,7 @@
 			<ul id="products" class="alt">
 				<g:each var="product" in="${params.products}">
 					<li><a> ${product.title}</a>
-					<p><div>${product.image}</div></p>
+					<p><img class="style2" src="${createLink(controller:'product', action:'displayImage', id: product.id)}" width="180" height="150"/></p>
 					</li>
 				</g:each>
 			</ul>

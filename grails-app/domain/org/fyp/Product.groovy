@@ -7,6 +7,7 @@ class Product {
     String title
 	String description
 	byte[] image
+	String imageType
 	User user
 	Date dateCreated
 
