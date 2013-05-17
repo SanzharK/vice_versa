@@ -90,7 +90,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col_4">
+	<div class="col_2">
 		<span class="icon green x-large" data-icon="'"></span>
 		<g:form url="[controller:'forumMessage',action:'newForumMessage']">
 			<div id="messagesForAuction">
@@ -125,7 +125,7 @@
 			</p>
 		</g:form>
 	</div>
-	<div class="col_4">
+	<div class="col_6">
 		<div id="current winner"></div>
 		<table class="sortable">
 			<thead>
@@ -152,20 +152,10 @@
 							${bid.comment}
 						</td>
 						<td><button class="green pill"
-								onClick="window.location = '/final_year_project/checkout/index' ">
+								onClick="window.location = '/final_year_project/bid/show/${bid.id}' ">
 								<span class="icon" data-icon="c"></span>
-								<g:message code="Accept"></g:message>
+								<g:message code="Show"></g:message>
 							</button>
-							<g:form controller="checkout" action="charge" method="POST">
-							<g:hiddenField name="amount" value="${bid.amount }"/>
-							<g:hiddenField name="description" value="${params.currentAuction.title }"/>
-								<script src="https://checkout.stripe.com/v2/checkout.js"
-									class="stripe-button"
-									data-key="pk_test_CcW6XFMWlFJ7HRytPt9Pi7er" data-amount="${bid.amount *100} "
-									data-name="${bid.bidder.companyName}" data-description="${params.currentAuction.title }"
-									data-image="https://zapier.cachefly.net/storage/services/0cbeb8038d3a9eefbb0963a1f8910822.128x128.png">
-  								</script>
-							</g:form>
 						</td>
 					</tr>
 				</g:each>

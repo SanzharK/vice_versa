@@ -3,6 +3,8 @@ package org.fyp
 import java.util.Date;
 
 class Product {
+	
+	// static embedded = ['user']
 
     String title
 	String description

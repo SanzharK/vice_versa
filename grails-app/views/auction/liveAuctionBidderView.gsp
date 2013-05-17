@@ -2,7 +2,7 @@
 <head>
 <title>FYP - Live Auction</title>
 <meta name="layout" content="main">
-<meta http-equiv="refresh" content="5" >
+<!-- <meta http-equiv="refresh" content="5"> -->
 <link href="${resource(dir:'/jcountdown',file:'jcountdown.css')}"
 	rel="stylesheet" type="text/css">
 <g:javascript src="jcountdown/jquery.jcountdown.min.js" />
@@ -22,7 +22,8 @@
 		<script>
 		jQuery(document).ready(function() {
 			jQuery("#countdown").jCountdown({
-				timeText : "${params.exactDate}",
+				timeText : "${params.exactDate}
+			",
 					timeZone : 1,
 					style : "metal",
 					color : "black",
@@ -46,12 +47,11 @@
 		</script>
 		<h4 class="col_2">
 			<font color="orange">Currently Winning Bid is <label>
-				<g:if test="${params.currentWinningBid == null}">
+					<g:if test="${params.currentWinningBid == null}">
 				not yet submitted
-				</g:if>
-				<g:else>
-					${params.currentWinningBid.amount}
-				</g:else>
+				</g:if> <g:else>
+						${params.currentWinningBid.amount}
+					</g:else>
 			</label></font>
 		</h4>
 	</div>
@@ -123,12 +123,14 @@
 					</thead>
 					<tbody>
 						<g:each var="message" in="${params.messages}">
-						<tr class="first" style="float: left; height: 80px">
-							<td>${message.message }</td>
-						</tr>
-						<tr class="alt" style="height: 80px">
-							<td>Posted by ${message.sender.companyName }</td>
-						</tr>
+							<tr class="first" style="float: left; height: 80px">
+								<td>
+									${message.message }
+								</td>
+							</tr>
+							<tr class="alt" style="height: 80px">
+								<td>Posted by ${message.sender.companyName }</td>
+							</tr>
 						</g:each>
 					</tbody>
 				</table>
@@ -155,6 +157,30 @@
 					<label>€</label>
 				</g:if>
 				<input name="amount" class="col_2">
+			</p>
+			<p>
+				<label for="currency" class="col_3">Currency</label>
+			</p>
+			<p>
+				<select id="currency" class="fancy" style="width: 180px;"
+					name="currency">
+					<option value="0">-- Choose --</option>
+					<option value="Euro">€ Euro</option>
+					<option value="Pound">£ Pound</option>
+					<option value="Dollar">$ US Dollar</option>
+				</select>
+			</p>
+			<p>
+				<label>Product</label>
+			</p>
+			<p>
+				<g:select name="product" from="${params.products.toList()}" optionValue="title" optionKey="id" multiple="true" noSelection="${['null':'Select One...']}"/>
+			</p>
+			<p>
+				<label>Service</label>
+			</p>
+			<p>
+				<g:select name="service" from="${params.services.toList()}" optionValue="title" optionKey="id" multiple="true" noSelection="${['null':'Select One...']}"/>
 			</p>
 			<p>
 				<label>Comment</label>

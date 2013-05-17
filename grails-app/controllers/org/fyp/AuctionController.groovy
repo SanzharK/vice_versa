@@ -45,9 +45,7 @@ class AuctionController {
 		params.currentAuction = auction
 		// this is not right!
 		def currentBids = Bid.findAllByAuction(auction, [sort:"amount", order:"asc"])
-		System.out.println(currentBids.amount)
 		def currentWinner = currentBids[0]
-		System.out.println(currentWinner)
 		params.currentWinningBid = currentWinner
 		//
 		def now = Calendar.instance
@@ -62,6 +60,12 @@ class AuctionController {
 		// messages
 		def messages = displayForumMessages(auction)
 		params.messages = messages
+		
+		def services = Service.findAllByUser(session.user)
+		System.out.println(services)
+		params.services = services
+		def products = Product.findAllByUser(session.user)
+		params.products = products
 	}
 
 	def liveAuctionHostView() {
@@ -140,9 +144,8 @@ class AuctionController {
 		if(request.method == 'POST') {
 			def liveAuction = new Auction(params)
 			//def user = session.user
-			def bids = new ArrayList<Bid>()
 			liveAuction.host = getCurrentUser()
-			liveAuction.bids = bids
+			liveAuction.bids = []
 			liveAuction.type = 'Live Auction'
 			liveAuction.status = 'announced'
 			def auctionForum = new AuctionForum(auction: liveAuction)

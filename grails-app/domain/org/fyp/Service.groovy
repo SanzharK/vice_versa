@@ -4,6 +4,8 @@ import java.util.Date;
 
 class Service {
 
+	// static embedded = ['user']
+	
     String title
 	String description
 	User user

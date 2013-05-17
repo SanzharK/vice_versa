@@ -190,14 +190,14 @@ class UserController {
 	}
 
 	private displayServices() {
-		def u = session.user
+		def u = User.findById(session.user.id)
 		def services = Service.findAllByUser(u) {
 		}
 		services
 	}
 
 	private displayProducts() {
-		def u = session.user
+		def u = User.findById(session.user.id)
 		def products = Product.findAllByUser(u) {
 		}
 		products
